@@ -1,4 +1,8 @@
-function ochingin() {
+function Ochingin(day) {
+  this.day = day;
 }
 
-module.exports = ochingin;
+Ochingin.prototype.check = function(date) {
+};
+
+module.exports = Ochingin;
