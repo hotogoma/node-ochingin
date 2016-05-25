@@ -7,12 +7,11 @@ describe('Ochingin.prototype.check', function() {
 
     before(function() {
       obj = new Ochingin(5);
-      date = new Date(2016);
     });
 
     context('2016年1月', function() {
       before(function() {
-        date.setMonth(0);
+        date = new Date(2016, 0);
       });
 
       it('5日(火) は給料日', function() {
@@ -29,7 +28,7 @@ describe('Ochingin.prototype.check', function() {
     // 給料日が土日の場合、前の金曜日が給料日になる
     context('2016年3月', function() {
       before(function() {
-        date.setMonth(2);
+        date = new Date(2016, 2);
       });
 
       it('4日(金) は給料日', function() {
@@ -46,7 +45,7 @@ describe('Ochingin.prototype.check', function() {
     // 給料日が祝日の場合、前の平日が給料日になる
     context('2016年5月', function() {
       before(function() {
-        date.setMonth(4);
+        date = new Date(2016, 4);
       });
 
       it('2日(月) は給料日', function() {
