@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "mocha": "*"
+  },
+  "dependencies": {
+    "shukjitz": "^0.2.0"
   }
 }

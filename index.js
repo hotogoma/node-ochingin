@@ -1,30 +1,50 @@
-var Shukjitz = require('shukjitz'); 
-function Ochingin(day) {
+function Ochingin(day, isHoliday) {
+  this.isHoliday = isHoliday;
   this.day = day;
 }
 
 Ochingin.prototype.check = function(date) {
-  if(isYasumi(date, this.day) === true) {
-    if(date.getDay() === 5 ){
-      return true;
-    }
-  } else{
-    if(this.day === date.getDate()){
-      return true;
-    } 
+  // 入力値がなければ、今日の日付を設定
+  if(date === undefined){
+    date = new Date();
   }
+  // その月の通常の給料日を取得する
+  var default_ochingin_date = new Date(date.getTime());
+  default_ochingin_date.setDate(this.day);
+
+  // その月の休日を考慮したおちんぎん日を取得する
+  var ochingin_date = this.getOchinginDay(default_ochingin_date);
+
+  // おちんぎん日と指定された日付が一致するか判定
+  if (ochingin_date.getDate() == date.getDate()) {
+    return true;
+  }
+
     return false;
 };
 
-// 給料日が土日かチェック
-function isYasumi(date, day){
-  var ochingin_date = new Date(date.getTime());
-  ochingin_date.setDate(day);
+// 土日かチェック
+Ochingin.prototype.isYasumi = function(date){
     // 土日
-  if(ochingin_date.getDay() == 0 || ochingin_date.getDay() == 6) {
+  if(date.getDay() == 0 || date.getDay() == 6 || this.isHoliday(date) != null) {
         return true;
   }
   return false;
+}
+
+// おちんぎん日取得
+Ochingin.prototype.getOchinginDay = function(default_ochingin_date) {
+  var date = new Date(default_ochingin_date.getTime());
+
+  // おちんぎん日が平日ならおちんぎん通常日を返す
+  if(this.isYasumi(date) === false) {
+    return date;
+  }
+  // 給料日の直前の平日を探す
+  while(this.isYasumi(date) === true) {
+    date.setDate(date.getDate() - 1);
+  }
+  return date;
 }
 
 module.exports = Ochingin;
