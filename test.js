@@ -1,12 +1,17 @@
 var Ochingin = require('.');
 var assert = require('assert');
+var Shukjitz = require('shukjitz');
 
 describe('Ochingin.prototype.check', function() {
   context('給料日が5日の場合', function() {
     var obj, date;
 
-    before(function() {
-      obj = new Ochingin(5);
+    before(function(done) {
+      var shukjitz = new Shukjitz({}, function() {
+        var isHoliday = Shukjitz.prototype.checkSync.bind(shukjitz);
+        obj = new Ochingin(5, isHoliday);
+        done();
+      });
     });
 
     context('2016年1月', function() {
@@ -70,9 +75,13 @@ describe('Ochingin.prototype.check', function() {
     });
   })
 
-  it('引数を省略すると今日の日付をチェックする', function() {
-    var obj = new Ochingin(1);
-    var date = new Date();
-    assert.equal(obj.check(), obj.check(date));
+  it('引数を省略すると今日の日付をチェックする', function(done) {
+    var shukjitz = new Shukjitz({}, function() {
+      var isHoliday = Shukjitz.prototype.checkSync.bind(shukjitz);
+      obj = new Ochingin(1, isHoliday);
+      var date = new Date();
+      assert.equal(obj.check(), obj.check(date));
+      done();
+    });
   });
 });
