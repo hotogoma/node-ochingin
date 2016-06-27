@@ -5,9 +5,7 @@ function Ochingin(day, isHoliday) {
 
 Ochingin.prototype.check = function(date) {
   // 入力値がなければ、今日の日付を設定
-  if(date === undefined){
-    date = new Date();
-  }
+  date = date || new Date();
   // その月の通常の給料日を取得する
   var default_ochingin_date = new Date(date.getTime());
   default_ochingin_date.setDate(this.day);
