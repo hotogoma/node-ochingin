@@ -21,6 +21,21 @@ Ochingin.prototype.check = function(date) {
     return false;
 };
 
+Ochingin.prototype.date = function() {
+  // 今日の日付を取得
+  date = new Date();
+  // その月の通常の給料日を取得する
+  var default_ochingin_date = new Date(date.getTime());
+  default_ochingin_date.setDate(this.day);
+
+  // その月の休日を考慮したおちんぎん日を取得する
+  var ochingin_date = this.getOchinginDay(default_ochingin_date);
+
+  // おちんぎん日を返す
+  return ochingin_date.getDate();
+};
+
+
 // 土日かチェック
 Ochingin.prototype.isYasumi = function(date){
     // 土日
