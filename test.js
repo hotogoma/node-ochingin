@@ -84,4 +84,51 @@ describe('Ochingin.prototype.check', function() {
       done();
     });
   });
+
+  context('お賃金日を返すメソッドの動作をチェックする', function() {
+    context('給料日が平日10/20(木)', function() {
+      var obj;
+      before(function(done) {
+        var shukjitz = new Shukjitz({}, function() {
+          var isHoliday = Shukjitz.prototype.checkSync.bind(shukjitz);
+          obj = new Ochingin(20, isHoliday);
+          done();
+        });
+      });
+
+      it('20日(木) が給料日', function() {
+        assert.equal(obj.date().toString(), new Date(2016, 9, 20).toString() );
+      });
+    });
+
+    context('給料日が10/22(土)', function() {
+      var obj;
+      before(function(done) {
+        var shukjitz = new Shukjitz({}, function() {
+          var isHoliday = Shukjitz.prototype.checkSync.bind(shukjitz);
+          obj = new Ochingin(22, isHoliday);
+          done();
+        });
+      });
+
+      it('21日(月) が給料日', function() {
+        assert.equal(obj.date().toString(), new Date(2016, 9, 21).toString());
+      });
+    });
+
+    context('給料日が10/10(月・祝)', function() {
+      var obj;
+      before(function(done) {
+        var shukjitz = new Shukjitz({}, function() {
+          var isHoliday = Shukjitz.prototype.checkSync.bind(shukjitz);
+          obj = new Ochingin(10, isHoliday);
+          done();
+        });
+      });
+
+      it('7日(金) が給料日', function() {
+        assert.equal(obj.date().toString(), new Date(2016, 9, 7).toString());
+      });
+    });
+  });
 });

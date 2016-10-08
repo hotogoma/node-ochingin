@@ -32,7 +32,7 @@ Ochingin.prototype.date = function() {
   var ochingin_date = this.getOchinginDay(default_ochingin_date);
 
   // おちんぎん日を返す
-  return ochingin_date.getDate();
+  return new Date( ochingin_date.getYear()+1900, ochingin_date.getMonth(), ochingin_date.getDate())
 };
 
 
