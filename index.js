@@ -21,9 +21,11 @@ Ochingin.prototype.check = function(date) {
     return false;
 };
 
-Ochingin.prototype.date = function() {
+// 次の給料日を取得する
+Ochingin.prototype.nextDate = function(date) {
   // 今日の日付を取得
-  date = new Date();
+  date = date || new Date();
+
   // その月の通常の給料日を取得する
   var default_ochingin_date = new Date(date.getTime());
   default_ochingin_date.setDate(this.day);
@@ -31,9 +33,19 @@ Ochingin.prototype.date = function() {
   // その月の休日を考慮したおちんぎん日を取得する
   var ochingin_date = this.getOchinginDay(default_ochingin_date);
 
-  // おちんぎん日を返す
-  return new Date( ochingin_date.getYear()+1900, ochingin_date.getMonth(), ochingin_date.getDate())
+  // 今月のお給料日が過ぎている場合
+  if (ochingin_date < date) {
+      // 来月の通常の給料日を取得する
+      var default_ochingin_date = new Date(date.setMonth(date.getMonth()+1));
+      default_ochingin_date.setDate(this.day);
+
+      // その月の休日を考慮したおちんぎん日を取得する
+      var ochingin_date = this.getOchinginDay(default_ochingin_date);
+  }
+
+  return new Date( ochingin_date.getYear()+1900, ochingin_date.getMonth(), ochingin_date.getDate());
 };
+
 
 
 // 土日かチェック
